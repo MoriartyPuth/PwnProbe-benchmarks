@@ -144,6 +144,17 @@
     "notes": "Not memory corruption. A fixed key gates print_flag(); angr finds the reaching stdin and PwnProbe replays it one-shot, keeping the flag only because it prints."
   },
   {
+    "name": "lab14_ret2plt_string",
+    "source": "labs/lab14_ret2plt_string/vuln.c",
+    "flag_file": "labs/lab14_ret2plt_string/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "ret2plt (call system with an in-binary string)",
+    "expected_strategy": "ret2plt",
+    "expected_flag": "FLAG{r3t2plt_sy5t3m_str1ng_ptr_2024}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "No win function. The overflow must call system@plt with a pointer to the in-binary \"/bin/cat flag.txt\" string via a pop rdi; ret gadget (mirrors ROP Emporium split). Includes an explicit pop rdi; ret gadget since glibc >= 2.34 dropped __libc_csu_init."
+  },
+  {
     "name": "heap_simple",
     "source": "labs/heap_simple/vuln.c",
     "flag_file": "labs/heap_simple/flag.txt",

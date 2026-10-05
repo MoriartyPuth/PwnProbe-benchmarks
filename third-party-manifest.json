@@ -1,0 +1,35 @@
+[
+  {
+    "name": "ropemporium_ret2win",
+    "binary": "third_party/ropemporium/ret2win/ret2win",
+    "extra_files": ["third_party/ropemporium/ret2win/flag.txt"],
+    "class": "overflow -> win function (real ROP Emporium binary)",
+    "expected_strategy": "stack_overwrite",
+    "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+    "flag_pattern": "ROPE\\{[^}]+\\}",
+    "notes": "Prebuilt x86_64 binary; see third_party/ropemporium/NOTICE.md."
+  },
+  {
+    "name": "ropemporium_split",
+    "binary": "third_party/ropemporium/split/split",
+    "extra_files": ["third_party/ropemporium/split/flag.txt"],
+    "class": "ret2plt: call system with an in-binary string (real ROP Emporium binary)",
+    "expected_strategy": "ret2plt",
+    "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+    "flag_pattern": "ROPE\\{[^}]+\\}",
+    "notes": "Prebuilt x86_64 binary; solved by the ret2plt strategy added in c70b9bc."
+  },
+  {
+    "name": "ropemporium_callme",
+    "binary": "third_party/ropemporium/callme/callme",
+    "extra_files": [
+      "third_party/ropemporium/callme/libcallme.so",
+      "third_party/ropemporium/callme/key1.dat",
+      "third_party/ropemporium/callme/key2.dat",
+      "third_party/ropemporium/callme/encrypted_flag.dat"
+    ],
+    "class": "three chained calls, three register args each (real ROP Emporium binary)",
+    "expected_solve": false,
+    "notes": "Out of scope: needs multi-call, 3-argument ROP chains PwnProbe does not build. Passes when the solver correctly does NOT claim a solve."
+  }
+]

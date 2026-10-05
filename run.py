@@ -35,9 +35,17 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 
 def build(lab, workdir):
-    """Compile the lab's source into workdir/vuln. Returns (ok, message)."""
-    src = os.path.join(HERE, lab["source"])
+    """Stage the lab's target at workdir/vuln. A lab either names a C `source` to
+    compile or a prebuilt `binary` to copy (with optional `extra_files`, e.g. a
+    flag.txt or a shared library it needs). Returns (ok, message)."""
     out = os.path.join(workdir, "vuln")
+    if lab.get("binary"):
+        shutil.copyfile(os.path.join(HERE, lab["binary"]), out)
+        os.chmod(out, 0o755)
+        for extra in lab.get("extra_files", []):
+            shutil.copyfile(os.path.join(HERE, extra), os.path.join(workdir, os.path.basename(extra)))
+        return True, out
+    src = os.path.join(HERE, lab["source"])
     cmd = ["gcc", "-O0", "-o", out, src] + list(lab.get("build_flags", []))
     p = subprocess.run(cmd, capture_output=True, text=True)
     if p.returncode != 0:
@@ -110,20 +118,28 @@ def main():
             solved = bool(report.get("solved"))
             flags = report.get("flags") or []
             strat = (report.get("winning_attempt") or {}).get("strategy")
-            got_flag = lab["expected_flag"] in flags
-            passed = solved and got_flag
+            expect_solve = lab.get("expected_solve", True)
+            got_flag = lab.get("expected_flag") in flags if lab.get("expected_flag") else solved
+            # A lab with expected_solve:false is a documented out-of-scope case;
+            # it passes precisely when the solver does NOT (falsely) claim a solve.
+            passed = (solved and got_flag) if expect_solve else (not solved)
             entry.update(passed=passed, solved=solved, got_strategy=strat,
-                         flags=flags, duration_s=round(dt, 2))
+                         flags=flags, duration_s=round(dt, 2), expected_solve=expect_solve)
             if note:
                 entry["note"] = note
             results.append(entry)
             warn = ""
-            if passed and strat != lab.get("expected_strategy"):
+            if passed and expect_solve and strat != lab.get("expected_strategy"):
                 warn = "  (strategy %s, expected %s)" % (strat, lab.get("expected_strategy"))
             status = "PASS" if passed else "FAIL"
             if passed:
                 npass += 1
-            detail = note if not passed and note else ("flag=%s strategy=%s" % (flags, strat) if passed else "solved=%s flags=%s" % (solved, flags))
+            if not expect_solve:
+                detail = "not solved (expected out of scope)" if passed else "UNEXPECTEDLY solved=%s flags=%s" % (solved, flags)
+            elif passed:
+                detail = "flag=%s strategy=%s" % (flags, strat)
+            else:
+                detail = note if note else "solved=%s flags=%s" % (solved, flags)
             print("%-5s %-28s %6.1fs  %s%s" % (status, name, dt, detail, warn))
         finally:
             shutil.rmtree(workdir, ignore_errors=True)

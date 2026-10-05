@@ -32,11 +32,17 @@ generalization benchmark.
 labs/<name>/vuln.c      lab source
 labs/<name>/flag.txt     the planted flag (read at runtime / via a spawned shell)
 manifest.json            every lab: source, build flags, class, expected strategy + flag, protections
-run.py                   solve-benchmark harness (build -> solve -> compare)
+run.py                   solve-benchmark harness (build-or-copy -> solve -> compare)
 detect-manifest.json     detection cases for the tool's own `pwnprobe benchmark` command
+third_party/             prebuilt third-party challenge binaries (ROP Emporium) + NOTICE
+third-party-manifest.json  harness manifest for the prebuilt binaries
 results/<commit>.json    machine-readable comparison results for a PwnProbe commit
 results/<commit>.md      human-readable summary of the same run
 ```
+
+The harness builds a lab from `source` (C) or copies a prebuilt `binary` (with
+any `extra_files`); a lab marked `"expected_solve": false` passes when the solver
+correctly does *not* claim a solve (used for the out-of-scope `callme`).
 
 ## Lab catalog
 
@@ -57,6 +63,7 @@ Each lab is 64-bit and exercises one PwnProbe strategy.
 | lab11_ret2syscall | execve ROP, statically linked | `ret2syscall` |
 | lab12_partial_overwrite | PIE partial overwrite, no leak | `partial_overwrite` |
 | lab13_angr_logic | logic/stdin puzzle (symbolic execution) | `angr_logic` |
+| lab14_ret2plt_string | call `system` with an in-binary string (split-style) | `ret2plt` |
 | heap_simple | heap UAF, minimal menu | `heap_uaf` |
 | heap_realistic | heap UAF, index + size prompts | `heap_uaf` |
 | heap_variety | heap UAF, synonym menu, fn ptr at offset 8 | `heap_uaf` |
@@ -74,8 +81,11 @@ binary (`GOOS=linux GOARCH=amd64`) and run everything inside WSL.
 # from the tool repo: build the solver
 go build -o bin/pwnprobe ./cmd/pwnprobe
 
-# from this repo: run the whole suite
+# from this repo: run the whole synthetic suite
 ./run.py --pwnprobe /path/to/pwnprobe --out results/$(git -C /path/to/PwnProbes rev-parse --short HEAD).json
+
+# and the prebuilt third-party binaries (ROP Emporium)
+./run.py --pwnprobe /path/to/pwnprobe --manifest third-party-manifest.json --out results/real-world-ropemporium.json
 ```
 
 `lab13_angr_logic` needs symbolic execution: set `PWNPROBE_PYTHON` to a Python

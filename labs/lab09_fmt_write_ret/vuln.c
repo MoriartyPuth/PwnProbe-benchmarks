@@ -6,6 +6,7 @@
 // Build: gcc -O0 -fno-stack-protector -no-pie -Wl,-z,relro,-z,now
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void setup(void) {
     setvbuf(stdin, NULL, _IONBF, 0);
@@ -24,7 +25,11 @@ void win(void) {
 void vuln(void) {
     char buf[256];
     printf("> ");
-    if (!fgets(buf, sizeof buf, stdin)) exit(0);
+    // read() (not fgets) so a leaked stack address placed in the payload is not
+    // truncated at a 0x0a byte -- keeps the write-to-return-address deterministic.
+    int n = read(0, buf, sizeof buf - 1);
+    if (n <= 0) exit(0);
+    buf[n] = 0;
     printf(buf); // vulnerable: user-controlled format string, in a loop
 }
 

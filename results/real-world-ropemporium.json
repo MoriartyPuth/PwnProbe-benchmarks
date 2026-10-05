@@ -1,0 +1,52 @@
+{
+  "meta": {
+    "pwnprobe_commit": "c70b9bc",
+    "date": "2026-10-05",
+    "os": "Ubuntu 24.04.3 LTS",
+    "glibc": "2.39",
+    "source": "https://ropemporium.com",
+    "notes": "Prebuilt binaries under third_party/ropemporium/."
+  },
+  "passed": 3,
+  "total": 3,
+  "timeout": "2s",
+  "cases": [
+    {
+      "name": "ropemporium_ret2win",
+      "expected_strategy": "stack_overwrite",
+      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "stack_overwrite",
+      "flags": [
+        "ROPE{a_placeholder_32byte_flag!}"
+      ],
+      "duration_s": 0.72,
+      "expected_solve": true
+    },
+    {
+      "name": "ropemporium_split",
+      "expected_strategy": "ret2plt",
+      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "ret2plt",
+      "flags": [
+        "ROPE{a_placeholder_32byte_flag!}"
+      ],
+      "duration_s": 12.39,
+      "expected_solve": true
+    },
+    {
+      "name": "ropemporium_callme",
+      "expected_strategy": null,
+      "expected_flag": null,
+      "passed": true,
+      "solved": false,
+      "got_strategy": null,
+      "flags": [],
+      "duration_s": 11.84,
+      "expected_solve": false
+    }
+  ]
+}
