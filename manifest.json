@@ -1,0 +1,179 @@
+[
+  {
+    "name": "lab01_variable_overwrite",
+    "source": "labs/lab01_variable_overwrite/vuln.c",
+    "flag_file": "labs/lab01_variable_overwrite/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "stack overflow / guard-variable overwrite",
+    "expected_strategy": "stack_overwrite",
+    "expected_flag": "FLAG{v4r14bl3_0v3rfl0w_l1k3_4_pr0_8819}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "gets() overflow sets a guard variable to a magic constant decoded from the binary."
+  },
+  {
+    "name": "lab02_ret2win_basic",
+    "source": "labs/lab02_ret2win_basic/vuln.c",
+    "flag_file": "labs/lab02_ret2win_basic/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "stack overflow / ret2win",
+    "expected_strategy": "stack_overwrite",
+    "expected_flag": "FLAG{r3t2w1n_b4s1c_c0ntr0l_fl0w_m4st3r_1928}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Overflow redirects the saved return address to a flag-printing function."
+  },
+  {
+    "name": "lab03_ret2win_alignment",
+    "source": "labs/lab03_ret2win_alignment/vuln.c",
+    "flag_file": "labs/lab03_ret2win_alignment/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "stack overflow / ret2win with movaps alignment",
+    "expected_strategy": "stack_overwrite",
+    "expected_flag": "FLAG{m0v4ps_st4ck_4l1gnm3nt_d3f34t3d_7712}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Win calls into libc; a stack-aligning ret gadget clears the movaps fault."
+  },
+  {
+    "name": "lab04_ret2win_params",
+    "source": "labs/lab04_ret2win_params/vuln.c",
+    "flag_file": "labs/lab04_ret2win_params/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "ROP / two-argument ret2win",
+    "expected_strategy": "rop_ret2win_args",
+    "expected_flag": "FLAG{c4ll1ng_c0nv3nt10ns_rd1_rs1_m4st3r_4421}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Win requires RDI and RSI equal to specific constants; chain uses pop rdi/pop rsi gadgets."
+  },
+  {
+    "name": "lab05_shellcode_execstack",
+    "source": "labs/lab05_shellcode_execstack/vuln.c",
+    "flag_file": "labs/lab05_shellcode_execstack/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-z", "execstack", "-no-pie"],
+    "class": "shellcode on executable stack",
+    "expected_strategy": "shellcode",
+    "expected_flag": "FLAG{sh3llc0d3_n0p_sl3d_w4t3rsl1d3_9931}",
+    "protections": {"nx": "disabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Binary leaks its buffer address; shellcode is written there and the return address points at it."
+  },
+  {
+    "name": "lab06_format_string_leak",
+    "source": "labs/lab06_format_string_leak/vuln.c",
+    "flag_file": "labs/lab06_format_string_leak/flag.txt",
+    "build_flags": [],
+    "class": "format string read",
+    "expected_strategy": "stack_dump",
+    "expected_flag": "FLAG{f0rm4t_str1ng_st4ck_l34k_m4g1c_1337}",
+    "protections": {"nx": "enabled", "pie": "enabled", "canary": "enabled", "relro": "full"},
+    "notes": "Default-hardened build; the flag is read out of a %p stack dump reassembled from little-endian leaks."
+  },
+  {
+    "name": "lab07_ret2libc_intro",
+    "source": "labs/lab07_ret2libc_intro/vuln.c",
+    "flag_file": "labs/lab07_ret2libc_intro/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "ret2libc",
+    "expected_strategy": "ret2libc",
+    "expected_flag": "FLAG{r3t2l1bc_d3f34t3d_nx_sh3ll_sp4wn3d_8812}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "NX binary leaks a libc address; chain resolves system()/\"/bin/sh\" and spawns a shell. The local libc is the target libc here; a mismatched remote needs --libc."
+  },
+  {
+    "name": "lab08_fmt_got_overwrite",
+    "source": "labs/lab08_fmt_got_overwrite/vuln.c",
+    "flag_file": "labs/lab08_fmt_got_overwrite/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "format string / GOT overwrite",
+    "expected_strategy": "fmt_got_overwrite",
+    "expected_flag": "FLAG{g0t_0v3rwr1t3_hhn_byt3_wr1t3s_2024}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Writable GOT (partial RELRO). An exit()/puts() GOT entry reached after the vulnerable printf is overwritten with win via %hhn byte writes."
+  },
+  {
+    "name": "lab09_fmt_write_ret",
+    "source": "labs/lab09_fmt_write_ret/vuln.c",
+    "flag_file": "labs/lab09_fmt_write_ret/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie", "-Wl,-z,relro,-z,now"],
+    "class": "format string / write to saved return address (defeats full RELRO)",
+    "expected_strategy": "fmt_write_ret",
+    "expected_flag": "FLAG{full_r3lr0_d3f34t3d_v14_s4v3d_r1p_2024}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "full"},
+    "notes": "Full RELRO makes the GOT read-only; the loop lets the solver leak the stack and write win over a saved return address in one connection."
+  },
+  {
+    "name": "lab10_canary_ret2win",
+    "source": "labs/lab10_canary_ret2win/vuln.c",
+    "flag_file": "labs/lab10_canary_ret2win/flag.txt",
+    "build_flags": ["-no-pie", "-fstack-protector-all", "-Wl,-z,relro,-z,now"],
+    "class": "canary-bypass ret2win via format-string leak",
+    "expected_strategy": "canary_ret2win",
+    "expected_flag": "FLAG{c4n4ry_l34k3d_4nd_byp4ss3d_2024}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "enabled", "relro": "full"},
+    "notes": "Full RELRO (so the GOT-overwrite path skips). The canary is leaked live through the format string, then an overflow sends padding + canary + rbp + ret2win."
+  },
+  {
+    "name": "lab11_ret2syscall",
+    "source": "labs/lab11_ret2syscall/vuln.c",
+    "flag_file": "labs/lab11_ret2syscall/flag.txt",
+    "build_flags": ["-static", "-no-pie", "-fno-stack-protector"],
+    "class": "ret2syscall execve (static)",
+    "expected_strategy": "ret2syscall",
+    "expected_flag": "FLAG{r3t2sysc4ll_3x3cv3_b1nsh_st4t1c_2024}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Statically linked. An execve(\"/bin/sh\",0,0) ROP chain is built from pop rax/rdi/rsi/rdx;ret gadgets, a syscall, and the \"/bin/sh\" string; no libc resolution."
+  },
+  {
+    "name": "lab12_partial_overwrite",
+    "source": "labs/lab12_partial_overwrite/vuln.c",
+    "flag_file": "labs/lab12_partial_overwrite/flag.txt",
+    "build_flags": ["-fno-stack-protector"],
+    "class": "PIE partial-overwrite (no leak)",
+    "expected_strategy": "partial_overwrite",
+    "expected_flag": "FLAG{p13_p4rt14l_0v3rwr1t3_n0_l34k_2024}",
+    "protections": {"nx": "enabled", "pie": "enabled", "canary": "disabled", "relro": "full"},
+    "notes": "PIE with no leak. A read()-style overflow lets the low bytes of the saved return address be overwritten; the remaining ASLR nibble is beaten by retries across runs (probabilistic)."
+  },
+  {
+    "name": "lab13_angr_logic",
+    "source": "labs/lab13_angr_logic/vuln.c",
+    "flag_file": "labs/lab13_angr_logic/flag.txt",
+    "build_flags": [],
+    "class": "logic/stdin puzzle (symbolic execution)",
+    "expected_strategy": "angr_logic",
+    "expected_flag": "FLAG{4ngr_sym3x_l0g1c_puzzl3_s0lv3d_2024}",
+    "protections": {"nx": "enabled", "pie": "enabled", "canary": "enabled", "relro": "full"},
+    "requires": "PWNPROBE_PYTHON set to a Python with angr installed",
+    "notes": "Not memory corruption. A fixed key gates print_flag(); angr finds the reaching stdin and PwnProbe replays it one-shot, keeping the flag only because it prints."
+  },
+  {
+    "name": "heap_simple",
+    "source": "labs/heap_simple/vuln.c",
+    "flag_file": "labs/heap_simple/flag.txt",
+    "build_flags": ["-no-pie", "-fno-stack-protector"],
+    "class": "heap use-after-free (minimal menu)",
+    "expected_strategy": "heap_uaf",
+    "expected_flag": "flag{heap_uaf_pwned}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Numbered menu; edit writes the dangling pointer with no index prompt (single implicit slot). Matches the original positional heap shape."
+  },
+  {
+    "name": "heap_realistic",
+    "source": "labs/heap_realistic/vuln.c",
+    "flag_file": "labs/heap_realistic/flag.txt",
+    "build_flags": ["-no-pie", "-fno-stack-protector"],
+    "class": "heap use-after-free (index + size prompts)",
+    "expected_strategy": "heap_uaf",
+    "expected_flag": "flag{heap_uaf_pwned}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "create prompts for index then size then name; delete/edit/use prompt for an index. Exercises prompt-driven menu interaction (v0.5.0)."
+  },
+  {
+    "name": "heap_variety",
+    "source": "labs/heap_variety/vuln.c",
+    "flag_file": "labs/heap_variety/flag.txt",
+    "build_flags": ["-no-pie", "-fno-stack-protector"],
+    "class": "heap use-after-free (synonym menu, fn ptr at offset 8)",
+    "expected_strategy": "heap_uaf",
+    "expected_flag": "flag{heap_uaf_pwned}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "Menu words Allocate/Release/Modify/Trigger; function pointer at object offset 8. Exercises keyword synonyms and the fn-offset sweep."
+  }
+]

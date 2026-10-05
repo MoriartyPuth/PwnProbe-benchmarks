@@ -1,0 +1,11 @@
+# Built lab binaries and transient harness artifacts. Lab sources (vuln.c),
+# flag files, and manifests are tracked; compiled binaries are not.
+labs/**/vuln
+labs/**/*.o
+*.out
+/tmp-*/
+dbg.sh
+dbg2.sh
+finalrun.sh
+manifest-extra.json
+manual.py

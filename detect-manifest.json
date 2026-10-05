@@ -1,0 +1,272 @@
+[
+  {
+    "name": "lab01_variable_overwrite",
+    "source": "labs/lab01_variable_overwrite/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab02_ret2win_basic",
+    "source": "labs/lab02_ret2win_basic/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab03_ret2win_alignment",
+    "source": "labs/lab03_ret2win_alignment/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab04_ret2win_params",
+    "source": "labs/lab04_ret2win_params/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab05_shellcode_execstack",
+    "source": "labs/lab05_shellcode_execstack/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-z",
+      "execstack",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "disabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab06_format_string_leak",
+    "source": "labs/lab06_format_string_leak/vuln.c",
+    "flags": [],
+    "protections": {
+      "nx": "enabled",
+      "pie": "enabled",
+      "relro": "full",
+      "canary": "present"
+    },
+    "format_string": true,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "lab07_ret2libc_intro",
+    "source": "labs/lab07_ret2libc_intro/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab08_fmt_got_overwrite",
+    "source": "labs/lab08_fmt_got_overwrite/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": true,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "lab09_fmt_write_ret",
+    "source": "labs/lab09_fmt_write_ret/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie",
+      "-Wl,-z,relro,-z,now"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "full",
+      "canary": "unknown"
+    },
+    "format_string": true,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "lab10_canary_ret2win",
+    "source": "labs/lab10_canary_ret2win/vuln.c",
+    "flags": [
+      "-no-pie",
+      "-fstack-protector-all",
+      "-Wl,-z,relro,-z,now"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "full",
+      "canary": "present"
+    },
+    "format_string": true,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab11_ret2syscall",
+    "source": "labs/lab11_ret2syscall/vuln.c",
+    "flags": [
+      "-static",
+      "-no-pie",
+      "-fno-stack-protector"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "present"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab12_partial_overwrite",
+    "source": "labs/lab12_partial_overwrite/vuln.c",
+    "flags": [
+      "-fno-stack-protector"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "enabled",
+      "relro": "full",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
+    "name": "lab13_angr_logic",
+    "source": "labs/lab13_angr_logic/vuln.c",
+    "flags": [],
+    "protections": {
+      "nx": "enabled",
+      "pie": "enabled",
+      "relro": "full",
+      "canary": "present"
+    },
+    "format_string": false,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "heap_simple",
+    "source": "labs/heap_simple/vuln.c",
+    "flags": [
+      "-no-pie",
+      "-fno-stack-protector"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "heap_realistic",
+    "source": "labs/heap_realistic/vuln.c",
+    "flags": [
+      "-no-pie",
+      "-fno-stack-protector"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": false,
+    "timeout": false
+  },
+  {
+    "name": "heap_variety",
+    "source": "labs/heap_variety/vuln.c",
+    "flags": [
+      "-no-pie",
+      "-fno-stack-protector"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": false,
+    "timeout": false
+  }
+]
