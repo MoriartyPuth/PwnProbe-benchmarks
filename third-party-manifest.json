@@ -29,7 +29,9 @@
       "third_party/ropemporium/callme/encrypted_flag.dat"
     ],
     "class": "three chained calls, three register args each (real ROP Emporium binary)",
-    "expected_solve": false,
-    "notes": "Out of scope: needs multi-call, 3-argument ROP chains PwnProbe does not build. Passes when the solver correctly does NOT claim a solve."
+    "expected_strategy": "rop_planner",
+    "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+    "flag_pattern": "ROPE\\{[^}]+\\}",
+    "notes": "Solved by the ROP chain planner (internal/rop): three chained 3-argument calls to callme_one/two/three with the magic constants harvested from libcallme.so."
   }
 ]

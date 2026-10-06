@@ -155,6 +155,17 @@
     "notes": "No win function. The overflow must call system@plt with a pointer to the in-binary \"/bin/cat flag.txt\" string via a pop rdi; ret gadget (mirrors ROP Emporium split). Includes an explicit pop rdi; ret gadget since glibc >= 2.34 dropped __libc_csu_init."
   },
   {
+    "name": "lab15_rop_chain",
+    "source": "labs/lab15_rop_chain/vuln.c",
+    "flag_file": "labs/lab15_rop_chain/flag.txt",
+    "build_flags": ["-fno-stack-protector", "-no-pie"],
+    "class": "chained multi-argument ROP (callme-style)",
+    "expected_strategy": "rop_planner",
+    "expected_flag": "FLAG{r0p_ch41n_mult1_c4ll_pl4nn3r_2026}",
+    "protections": {"nx": "enabled", "pie": "disabled", "canary": "disabled", "relro": "partial"},
+    "notes": "No single function prints the flag: three gate functions must be called in order (one->two->three), each with the same three magic arguments, before print_flag will disclose it. Only a chain of three 3-argument calls works (the ROP planner). Ships an explicit pop rdi; pop rsi; pop rdx; ret gadget (glibc >= 2.34 dropped __libc_csu_init)."
+  },
+  {
     "name": "heap_simple",
     "source": "labs/heap_simple/vuln.c",
     "flag_file": "labs/heap_simple/flag.txt",

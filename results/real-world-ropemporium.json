@@ -1,11 +1,13 @@
 {
   "meta": {
-    "pwnprobe_commit": "c70b9bc",
-    "date": "2026-10-05",
+    "pwnprobe_commit": "36acdbc",
+    "date": "2026-10-07",
     "os": "Ubuntu 24.04.3 LTS",
     "glibc": "2.39",
+    "gcc": "13.3.0",
+    "flag_pattern": "(?i)flag\\{[^}]+\\}",
     "source": "https://ropemporium.com",
-    "notes": "Prebuilt binaries under third_party/ropemporium/."
+    "note": "prebuilt binaries under third_party/ropemporium/"
   },
   "passed": 3,
   "total": 3,
@@ -21,7 +23,7 @@
       "flags": [
         "ROPE{a_placeholder_32byte_flag!}"
       ],
-      "duration_s": 0.72,
+      "duration_s": 0.33,
       "expected_solve": true
     },
     {
@@ -34,19 +36,21 @@
       "flags": [
         "ROPE{a_placeholder_32byte_flag!}"
       ],
-      "duration_s": 12.39,
+      "duration_s": 5.52,
       "expected_solve": true
     },
     {
       "name": "ropemporium_callme",
-      "expected_strategy": null,
-      "expected_flag": null,
+      "expected_strategy": "rop_planner",
+      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
       "passed": true,
-      "solved": false,
-      "got_strategy": null,
-      "flags": [],
-      "duration_s": 11.84,
-      "expected_solve": false
+      "solved": true,
+      "got_strategy": "rop_planner",
+      "flags": [
+        "ROPE{a_placeholder_32byte_flag!}"
+      ],
+      "duration_s": 130.89,
+      "expected_solve": true
     }
   ]
 }

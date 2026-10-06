@@ -236,6 +236,23 @@
     "timeout": false
   },
   {
+    "name": "lab15_rop_chain",
+    "source": "labs/lab15_rop_chain/vuln.c",
+    "flags": [
+      "-fno-stack-protector",
+      "-no-pie"
+    ],
+    "protections": {
+      "nx": "enabled",
+      "pie": "disabled",
+      "relro": "partial",
+      "canary": "unknown"
+    },
+    "format_string": false,
+    "crash": true,
+    "timeout": false
+  },
+  {
     "name": "heap_simple",
     "source": "labs/heap_simple/vuln.c",
     "flags": [

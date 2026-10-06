@@ -1,0 +1,249 @@
+{
+  "meta": {
+    "pwnprobe_commit": "36acdbc",
+    "date": "2026-10-07",
+    "os": "Ubuntu 24.04.3 LTS",
+    "glibc": "2.39",
+    "gcc": "13.3.0",
+    "flag_pattern": "(?i)flag\\{[^}]+\\}"
+  },
+  "passed": 18,
+  "total": 18,
+  "timeout": "2s",
+  "cases": [
+    {
+      "name": "lab01_variable_overwrite",
+      "expected_strategy": "stack_overwrite",
+      "expected_flag": "FLAG{v4r14bl3_0v3rfl0w_l1k3_4_pr0_8819}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "stack_overwrite",
+      "flags": [
+        "FLAG{v4r14bl3_0v3rfl0w_l1k3_4_pr0_8819}"
+      ],
+      "duration_s": 0.69,
+      "expected_solve": true
+    },
+    {
+      "name": "lab02_ret2win_basic",
+      "expected_strategy": "stack_overwrite",
+      "expected_flag": "FLAG{r3t2w1n_b4s1c_c0ntr0l_fl0w_m4st3r_1928}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "stack_overwrite",
+      "flags": [
+        "FLAG{r3t2w1n_b4s1c_c0ntr0l_fl0w_m4st3r_1928}"
+      ],
+      "duration_s": 0.2,
+      "expected_solve": true
+    },
+    {
+      "name": "lab03_ret2win_alignment",
+      "expected_strategy": "stack_overwrite",
+      "expected_flag": "FLAG{m0v4ps_st4ck_4l1gnm3nt_d3f34t3d_7712}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "stack_overwrite",
+      "flags": [
+        "FLAG{m0v4ps_st4ck_4l1gnm3nt_d3f34t3d_7712}"
+      ],
+      "duration_s": 1.65,
+      "expected_solve": true
+    },
+    {
+      "name": "lab04_ret2win_params",
+      "expected_strategy": "rop_ret2win_args",
+      "expected_flag": "FLAG{c4ll1ng_c0nv3nt10ns_rd1_rs1_m4st3r_4421}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "rop_ret2win_args",
+      "flags": [
+        "FLAG{c4ll1ng_c0nv3nt10ns_rd1_rs1_m4st3r_4421}"
+      ],
+      "duration_s": 16.8,
+      "expected_solve": true
+    },
+    {
+      "name": "lab05_shellcode_execstack",
+      "expected_strategy": "shellcode",
+      "expected_flag": "FLAG{sh3llc0d3_n0p_sl3d_w4t3rsl1d3_9931}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "shellcode",
+      "flags": [
+        "FLAG{sh3llc0d3_n0p_sl3d_w4t3rsl1d3_9931}"
+      ],
+      "duration_s": 8.04,
+      "expected_solve": true
+    },
+    {
+      "name": "lab06_format_string_leak",
+      "expected_strategy": "stack_dump",
+      "expected_flag": "FLAG{f0rm4t_str1ng_st4ck_l34k_m4g1c_1337}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "stack_dump",
+      "flags": [
+        "FLAG{f0rm4t_str1ng_st4ck_l34k_m4g1c_1337}"
+      ],
+      "duration_s": 0.3,
+      "expected_solve": true
+    },
+    {
+      "name": "lab07_ret2libc_intro",
+      "expected_strategy": "ret2libc",
+      "expected_flag": "FLAG{r3t2l1bc_d3f34t3d_nx_sh3ll_sp4wn3d_8812}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "ret2libc",
+      "flags": [
+        "FLAG{r3t2l1bc_d3f34t3d_nx_sh3ll_sp4wn3d_8812}"
+      ],
+      "duration_s": 15.02,
+      "expected_solve": true
+    },
+    {
+      "name": "lab08_fmt_got_overwrite",
+      "expected_strategy": "fmt_got_overwrite",
+      "expected_flag": "FLAG{g0t_0v3rwr1t3_hhn_byt3_wr1t3s_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "fmt_got_overwrite",
+      "flags": [
+        "FLAG{g0t_0v3rwr1t3_hhn_byt3_wr1t3s_2024}"
+      ],
+      "duration_s": 3.07,
+      "expected_solve": true
+    },
+    {
+      "name": "lab09_fmt_write_ret",
+      "expected_strategy": "fmt_write_ret",
+      "expected_flag": "FLAG{full_r3lr0_d3f34t3d_v14_s4v3d_r1p_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "fmt_write_ret",
+      "flags": [
+        "FLAG{full_r3lr0_d3f34t3d_v14_s4v3d_r1p_2024}"
+      ],
+      "duration_s": 7.12,
+      "expected_solve": true
+    },
+    {
+      "name": "lab10_canary_ret2win",
+      "expected_strategy": "canary_ret2win",
+      "expected_flag": "FLAG{c4n4ry_l34k3d_4nd_byp4ss3d_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "canary_ret2win",
+      "flags": [
+        "FLAG{c4n4ry_l34k3d_4nd_byp4ss3d_2024}"
+      ],
+      "duration_s": 148.76,
+      "expected_solve": true
+    },
+    {
+      "name": "lab11_ret2syscall",
+      "expected_strategy": "ret2syscall",
+      "expected_flag": "FLAG{r3t2sysc4ll_3x3cv3_b1nsh_st4t1c_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "ret2syscall",
+      "flags": [
+        "FLAG{r3t2sysc4ll_3x3cv3_b1nsh_st4t1c_2024}"
+      ],
+      "duration_s": 128.59,
+      "expected_solve": true
+    },
+    {
+      "name": "lab12_partial_overwrite",
+      "expected_strategy": "partial_overwrite",
+      "expected_flag": "FLAG{p13_p4rt14l_0v3rwr1t3_n0_l34k_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "partial_overwrite",
+      "flags": [
+        "FLAG{p13_p4rt14l_0v3rwr1t3_n0_l34k_2024}"
+      ],
+      "duration_s": 16.42,
+      "expected_solve": true
+    },
+    {
+      "name": "lab13_angr_logic",
+      "expected_strategy": "angr_logic",
+      "expected_flag": "FLAG{4ngr_sym3x_l0g1c_puzzl3_s0lv3d_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "angr_logic",
+      "flags": [
+        "FLAG{4ngr_sym3x_l0g1c_puzzl3_s0lv3d_2024}"
+      ],
+      "duration_s": 2.18,
+      "expected_solve": true
+    },
+    {
+      "name": "lab14_ret2plt_string",
+      "expected_strategy": "ret2plt",
+      "expected_flag": "FLAG{r3t2plt_sy5t3m_str1ng_ptr_2024}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "ret2plt",
+      "flags": [
+        "FLAG{r3t2plt_sy5t3m_str1ng_ptr_2024}"
+      ],
+      "duration_s": 6.44,
+      "expected_solve": true
+    },
+    {
+      "name": "lab15_rop_chain",
+      "expected_strategy": "rop_planner",
+      "expected_flag": "FLAG{r0p_ch41n_mult1_c4ll_pl4nn3r_2026}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "rop_planner",
+      "flags": [
+        "FLAG{r0p_ch41n_mult1_c4ll_pl4nn3r_2026}"
+      ],
+      "duration_s": 255.83,
+      "expected_solve": true
+    },
+    {
+      "name": "heap_simple",
+      "expected_strategy": "heap_uaf",
+      "expected_flag": "flag{heap_uaf_pwned}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "heap_uaf",
+      "flags": [
+        "flag{heap_uaf_pwned}"
+      ],
+      "duration_s": 3.97,
+      "expected_solve": true
+    },
+    {
+      "name": "heap_realistic",
+      "expected_strategy": "heap_uaf",
+      "expected_flag": "flag{heap_uaf_pwned}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "heap_uaf",
+      "flags": [
+        "flag{heap_uaf_pwned}"
+      ],
+      "duration_s": 4.85,
+      "expected_solve": true
+    },
+    {
+      "name": "heap_variety",
+      "expected_strategy": "heap_uaf",
+      "expected_flag": "flag{heap_uaf_pwned}",
+      "passed": true,
+      "solved": true,
+      "got_strategy": "heap_uaf",
+      "flags": [
+        "flag{heap_uaf_pwned}"
+      ],
+      "duration_s": 15.7,
+      "expected_solve": true
+    }
+  ]
+}
