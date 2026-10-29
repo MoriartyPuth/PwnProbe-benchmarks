@@ -115,7 +115,21 @@ Results depend on the host toolchain and libc:
 
 - `lab07_ret2libc_intro` resolves offsets from the **local** libc; the recorded
   run used that libc as the target. A different libc needs `pwnprobe solve
-  --libc`.
+  --libc`. The strategy matches the leak by assuming it is `system()`'s runtime
+  address (page-aligned base check), so on a libc whose layout differs from the
+  one the lab was tuned against the match can fail and the lab is reported
+  unsolved — observed on glibc 2.43 (Fedora 44), where it builds and runs but the
+  leak does not align.
+- **Modern gcc (>= 14, including the C23 default in gcc 16)** treats an implicit
+  function declaration as an error, and `gets()` is no longer declared, so the
+  `gets`-based labs (lab01–05, lab07, lab11) carry `-Wno-implicit-function-declaration`
+  in their `build_flags`. The `gets` **symbol** still links in current glibc
+  (2.43 tested), so no source change is needed; the flag is harmless on older
+  gcc.
+- `lab11_ret2syscall` builds with `-static`, which needs a **static libc**
+  (`glibc-static` on Fedora, `libc6-dev`/static libs on Debian/Ubuntu). Without
+  it the link fails (`cannot find -lc`) and the lab is skipped; install the
+  static libc to run it.
 - The `heap_*` labs rely on glibc tcache behaviour. The function-pointer UAF they
   use does not touch tcache `fd` pointers, so **safe-linking (glibc >= 2.32) does
   not affect them** — but tcache-poisoning labs (not present here) would.
