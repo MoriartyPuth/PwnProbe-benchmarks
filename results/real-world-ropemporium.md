@@ -1,42 +1,48 @@
-# Real-world check — ROP Emporium (x86_64)
+# Results — held-out generalization set (real ROP Emporium binaries)
 
-Besides the synthetic `labs/`, PwnProbe was run against real, third-party
-teaching-CTF binaries it did not author: the [ROP Emporium](https://ropemporium.com)
-x86_64 challenges. These binaries read `./flag.txt` and print it on a successful
-exploit, so an end-to-end solve is verifiable locally. They are **not** committed
-here (respecting their distribution); fetch them from ropemporium.com.
+This is the **generalization** benchmark: prebuilt, third-party challenge
+binaries ([ROP Emporium](https://ropemporium.com/)) that **no PwnProbe strategy
+was tuned to**, staged via [`third-party-manifest.json`](../third-party-manifest.json)
+from [`third_party/ropemporium/`](../third_party/ropemporium). It is reported
+**separately** from the known-to-implementation synthetic lab suite
+([`results/<commit>.md`](.)), because the synthetic labs each map to a strategy
+by construction and so measure coverage/regression, not generalization.
 
-Run on Ubuntu 24.04 / glibc 2.39.
+Machine-readable: [`real-world-ropemporium.json`](real-world-ropemporium.json).
 
-| Challenge | Technique it needs | PwnProbe | Strategy / reason |
-|-----------|--------------------|:--------:|-------------------|
-| ret2win | overflow → call a win function | ✅ solved | `stack_overwrite`: found the 40-byte offset, inserted a stack-aligning `ret`, jumped to `ret2win()`; recovered `ROPE{a_placeholder_32byte_flag!}` |
-| split | call `system@plt` with a pointer to an in-binary `"/bin/cat flag.txt"` string | ✅ solved | `ret2plt` (since `c70b9bc`): `pop rdi; ret` → string address → stack-aligning `ret` → `system@plt`; recovered `ROPE{a_placeholder_32byte_flag!}` |
-| callme | three chained calls, each with three register arguments (RDI/RSI/RDX) | ✅ solved | `rop_planner`: chains three 3-argument calls to callme_one/two/three with the magic constants harvested from `libcallme.so` |
+| Field | Value |
+|-------|-------|
+| PwnProbe commit | `02827fe` (1.0.0 + follow-on PRs 16–20) |
+| Date | 2026-11-01 |
+| OS | Fedora Linux 44 |
+| glibc | 2.43 |
+| gcc | 16.2.1 |
+| Solver per-run timeout | 2s |
+| Per-challenge wall | 900s |
 
-**History.** `ret2win` has always been in scope (overflow to a win function).
-`split` was a miss until the `ret2plt` strategy was added in PwnProbe `c70b9bc`
-after this real-world check surfaced the gap — a non-PIE, no-leak call of
-`system` with an in-binary string pointer. `callme` was then the next gap, and
-the ROP chain planner (`internal/rop`) was built to close it: it synthesizes the
-three chained three-argument calls. The remaining ladder (`write4`, `badchars`,
-`fluff`, `ret2csu`, `pivot`) needs write-what-where, the ret2csu universal
-gadget, and stack pivots / leaked-libc gadgets — the planner's later phases.
+## Summary
 
-The `ret2plt` capability is also covered by the committable synthetic lab
-[`lab14_ret2plt_string`](../labs/lab14_ret2plt_string/vuln.c), which mirrors
-`split` (and ships an explicit `pop rdi; ret` gadget, since glibc >= 2.34 dropped
-`__libc_csu_init`).
+**3 / 3 solved**, each with the real flag, on binaries the tool was not built
+against.
+
+| Challenge | Winning strategy | Flag | Time |
+|-----------|------------------|:----:|-----:|
+| ropemporium_ret2win | stack_overwrite | ✓ | 9.2s |
+| ropemporium_split | ret2plt | ✓ | 120.1s |
+| ropemporium_callme | rop_planner | ✓ | 303.7s |
+
+- Solve rate: 3/3. No failures, no timeouts.
+- Latency: median 120.1s; tail (max) 303.7s (`callme`, the multi-call ROP chain
+  synthesized by the planner). `callme` needs a wall above the default 300s on
+  this host, so the suite runs with `--wall 900`.
+- Timings are host-specific and are not performance targets; set any numeric
+  threshold from numbers reproduced on the target host.
 
 ## Reproduce
 
 ```sh
-mkdir rop && cd rop
-for c in ret2win split callme; do
-  wget -q https://ropemporium.com/binary/$c.zip && unzip -o -q $c.zip
-done
-B=/path/to/pwnprobe
-( cd ret2win && "$B" solve --timeout 2s ./ret2win )   # solves (stack_overwrite)
-( cd split   && "$B" solve --timeout 2s ./split )     # solves (ret2plt)
-( cd callme  && "$B" solve --timeout 2s ./callme )    # solves (rop_planner)
+git -C PwnProbes checkout 02827fe
+( cd PwnProbes && go build -o bin/pwnprobe ./cmd/pwnprobe )
+./run.py --pwnprobe PwnProbes/bin/pwnprobe --manifest third-party-manifest.json \
+  --wall 900 --out results/real-world-ropemporium.json
 ```

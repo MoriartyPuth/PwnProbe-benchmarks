@@ -26,6 +26,15 @@ This is a **known-to-the-implementation** suite: every lab maps to a strategy th
 tool implements, so it is a coverage and regression suite, not a held-out
 generalization benchmark.
 
+For generalization, the **held-out set** uses prebuilt third-party binaries that
+no strategy was tuned to — the real [ROP Emporium](https://ropemporium.com/)
+challenges, staged via [`third-party-manifest.json`](third-party-manifest.json)
+and reported **separately** in
+[`results/real-world-ropemporium.md`](results/real-world-ropemporium.md) with its
+own solve rate, latency, and failures. Keep the two apart: the synthetic suite
+diagnoses coverage and regressions, the held-out set measures whether the engine
+generalizes to binaries it was not built against.
+
 ## Layout
 
 ```

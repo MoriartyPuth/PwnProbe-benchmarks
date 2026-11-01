@@ -1,56 +1,56 @@
 {
-  "meta": {
-    "pwnprobe_commit": "36acdbc",
-    "date": "2026-10-07",
-    "os": "Ubuntu 24.04.3 LTS",
-    "glibc": "2.39",
-    "gcc": "13.3.0",
-    "flag_pattern": "(?i)flag\\{[^}]+\\}",
-    "source": "https://ropemporium.com",
-    "note": "prebuilt binaries under third_party/ropemporium/"
+ "meta": {
+  "pwnprobe_commit": "02827fe",
+  "pwnprobe_version": "1.0.0",
+  "date": "2026-11-01",
+  "os": "Fedora Linux 44",
+  "glibc": "2.43",
+  "gcc": "16.2.1",
+  "suite": "held-out (real ROP Emporium binaries)",
+  "note": "Generalization set: prebuilt third-party binaries no strategy was tuned to. Reported separately from the known-to-implementation synthetic suite."
+ },
+ "passed": 3,
+ "total": 3,
+ "timeout": "2s",
+ "cases": [
+  {
+   "name": "ropemporium_ret2win",
+   "expected_strategy": "stack_overwrite",
+   "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+   "passed": true,
+   "solved": true,
+   "got_strategy": "stack_overwrite",
+   "flags": [
+    "ROPE{a_placeholder_32byte_flag!}"
+   ],
+   "duration_s": 9.23,
+   "expected_solve": true
   },
-  "passed": 3,
-  "total": 3,
-  "timeout": "2s",
-  "cases": [
-    {
-      "name": "ropemporium_ret2win",
-      "expected_strategy": "stack_overwrite",
-      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
-      "passed": true,
-      "solved": true,
-      "got_strategy": "stack_overwrite",
-      "flags": [
-        "ROPE{a_placeholder_32byte_flag!}"
-      ],
-      "duration_s": 0.33,
-      "expected_solve": true
-    },
-    {
-      "name": "ropemporium_split",
-      "expected_strategy": "ret2plt",
-      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
-      "passed": true,
-      "solved": true,
-      "got_strategy": "ret2plt",
-      "flags": [
-        "ROPE{a_placeholder_32byte_flag!}"
-      ],
-      "duration_s": 5.52,
-      "expected_solve": true
-    },
-    {
-      "name": "ropemporium_callme",
-      "expected_strategy": "rop_planner",
-      "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
-      "passed": true,
-      "solved": true,
-      "got_strategy": "rop_planner",
-      "flags": [
-        "ROPE{a_placeholder_32byte_flag!}"
-      ],
-      "duration_s": 130.89,
-      "expected_solve": true
-    }
-  ]
+  {
+   "name": "ropemporium_split",
+   "expected_strategy": "ret2plt",
+   "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+   "passed": true,
+   "solved": true,
+   "got_strategy": "ret2plt",
+   "flags": [
+    "ROPE{a_placeholder_32byte_flag!}"
+   ],
+   "duration_s": 120.08,
+   "expected_solve": true
+  },
+  {
+   "name": "ropemporium_callme",
+   "expected_strategy": "rop_planner",
+   "expected_flag": "ROPE{a_placeholder_32byte_flag!}",
+   "passed": true,
+   "solved": true,
+   "got_strategy": "rop_planner",
+   "flags": [
+    "ROPE{a_placeholder_32byte_flag!}"
+   ],
+   "duration_s": 303.69,
+   "expected_solve": true
+  }
+ ]
 }
